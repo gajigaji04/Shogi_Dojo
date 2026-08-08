@@ -1,0 +1,44 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(36, 24, 15, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-4);
+  z-index: 100;
+}
+
+.dialog {
+  width: 100%;
+  max-width: 420px;
+  border: 1px solid var(--line-strong);
+  background: var(--paper-50);
+  padding: var(--sp-5);
+  position: relative;
+}
+
+.dialog::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border: 1px solid var(--line);
+  pointer-events: none;
+}
+
+.title {
+  font-family: var(--serif);
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-3);
+}
+
+.body {
+  margin-bottom: var(--sp-4);
+  color: var(--ink-700);
+}
+
+.actions {
+  display: flex;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+}

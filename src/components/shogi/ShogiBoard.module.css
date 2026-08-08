@@ -1,0 +1,97 @@
+.wrap {
+  display: inline-block;
+  --cell: clamp(32px, 8.6vw, 54px);
+}
+
+.coordsRow {
+  display: grid;
+  grid-template-columns: repeat(9, var(--cell));
+  margin-left: 22px;
+}
+
+.fileLabel {
+  text-align: center;
+  font-family: var(--mono);
+  font-size: var(--fs-caption);
+  color: var(--ink-500);
+}
+
+.boardArea {
+  display: flex;
+  align-items: stretch;
+}
+
+.rankLabels {
+  display: flex;
+  flex-direction: column;
+}
+
+.rankLabel {
+  width: 22px;
+  height: var(--cell);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: var(--fs-caption);
+  color: var(--ink-500);
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(9, var(--cell));
+  grid-template-rows: repeat(9, var(--cell));
+  background: repeating-linear-gradient(90deg, rgba(138, 106, 62, 0.14) 0 2px, transparent 2px var(--cell)),
+    repeating-linear-gradient(0deg, rgba(138, 106, 62, 0.14) 0 2px, transparent 2px var(--cell)),
+    linear-gradient(160deg, var(--wood-400), var(--wood-600));
+  border: 3px solid var(--ink-700);
+}
+
+.cell {
+  width: var(--cell);
+  height: var(--cell);
+  border: 1px solid rgba(36, 24, 15, 0.4);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  margin: -0.5px;
+}
+
+.cell:disabled {
+  cursor: default;
+}
+
+.selected {
+  outline: 2px solid var(--shu-600);
+  outline-offset: -2px;
+  z-index: 1;
+}
+
+.checkedKing {
+  background: rgba(140, 47, 27, 0.22);
+}
+
+.lastMove {
+  background: rgba(63, 74, 52, 0.16);
+}
+
+.movable::after {
+  content: "";
+  position: absolute;
+  width: 22%;
+  height: 22%;
+  border-radius: 50%;
+  background: var(--moss-600);
+  opacity: 0.8;
+}
+
+.capture::after {
+  content: "";
+  position: absolute;
+  inset: 12%;
+  border: 2px solid var(--shu-600);
+}

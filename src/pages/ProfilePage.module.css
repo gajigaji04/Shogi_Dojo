@@ -1,0 +1,78 @@
+.banner {
+  text-align: center;
+  border-top: 2px solid var(--ink-900);
+  border-bottom: 2px solid var(--ink-900);
+  padding: var(--sp-4) 0;
+  margin-bottom: var(--sp-5);
+}
+
+.bannerTitle {
+  font-size: var(--fs-h1);
+}
+
+.statsRow {
+  display: flex;
+  justify-content: center;
+  gap: var(--sp-6);
+  flex-wrap: wrap;
+  font-family: var(--mono);
+  margin-bottom: var(--sp-6);
+}
+
+.statBlock {
+  text-align: center;
+}
+
+.statValue {
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  color: var(--shu-700);
+  font-variant-numeric: tabular-nums;
+}
+
+.statLabel {
+  font-size: var(--fs-caption);
+  color: var(--ink-500);
+  letter-spacing: 0.06em;
+}
+
+.divider {
+  text-align: center;
+  color: var(--wood-800);
+  font-family: var(--mono);
+  letter-spacing: 0.3em;
+  margin: var(--sp-5) 0;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  background: var(--paper-50);
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px var(--sp-4);
+  border-bottom: 1px dashed var(--line);
+  text-decoration: none;
+  color: var(--ink-900);
+  font-size: var(--fs-small);
+  min-height: 44px;
+}
+
+.row:hover {
+  background: var(--wood-200);
+}
+
+.win {
+  color: var(--moss-600);
+  font-weight: 700;
+}
+.loss {
+  color: var(--shu-700);
+  font-weight: 700;
+}

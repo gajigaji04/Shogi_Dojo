@@ -1,0 +1,29 @@
+.piece {
+  width: var(--piece-size, 40px);
+  height: calc(var(--piece-size, 40px) * 1.06);
+  clip-path: polygon(50% 0%, 100% 32%, 84% 100%, 16% 100%, 0% 32%);
+  background: linear-gradient(180deg, #f4e7c8, #e4cb9a);
+  border: 1px solid var(--ink-700);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--serif);
+  font-weight: 700;
+  color: var(--ink-900);
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.piece[data-multichar="true"] {
+  font-size: 0.55em;
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+
+.gote {
+  transform: rotate(180deg);
+}
+
+.promoted {
+  color: var(--shu-600);
+}

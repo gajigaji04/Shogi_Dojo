@@ -1,0 +1,22 @@
+.setup {
+  text-align: center;
+  padding: var(--sp-6) 0;
+}
+
+.resultBanner {
+  border: 1px solid var(--shu-600);
+  background: var(--wood-200);
+  padding: var(--sp-4);
+  margin-bottom: var(--sp-4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+}
+
+.thinking {
+  font-family: var(--mono);
+  font-size: var(--fs-caption);
+  color: var(--ink-500);
+}

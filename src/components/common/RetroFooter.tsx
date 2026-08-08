@@ -10,8 +10,9 @@ export function RetroFooter() {
         <a href="#about-shogi">{t("common.aboutShogi")}</a>
         <a href="#contact">{t("common.contact")}</a>
       </div>
-      <div>{t("home.footerNote")}</div>
-      <div>© {new Date().getFullYear()} {t("app.title")}</div>
+      <div>
+        © {new Date().getFullYear()} {t("app.title")}
+      </div>
     </footer>
   );
 }

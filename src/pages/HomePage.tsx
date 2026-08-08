@@ -7,19 +7,28 @@ import { ShogiBoard } from "../components/shogi/ShogiBoard";
 import { createInitialBoard } from "../game/state/gameState";
 import { listGames } from "../game/storage/gameStorage";
 import { bumpAndGetVisitCount } from "../game/storage/visitCounter";
+import { api } from "../api/client";
+import { noticeTitle } from "../api/notice";
+import type { Notice } from "../api/notice";
 import { useI18n } from "../i18n/I18nContext";
 import styles from "./HomePage.module.css";
 
 const board = createInitialBoard();
+const NEW_BADGE_WINDOW_MS = 3 * 24 * 60 * 60 * 1000;
 
 export function HomePage() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const [visits, setVisits] = useState(0);
   const [gamesPlayed, setGamesPlayed] = useState(0);
+  const [notices, setNotices] = useState<Notice[] | null>(null);
 
   useEffect(() => {
     setVisits(bumpAndGetVisitCount());
     setGamesPlayed(listGames().length);
+    api
+      .get<{ notices: Notice[] }>("/api/notices")
+      .then((res) => setNotices(res.notices.slice(0, 3)))
+      .catch(() => setNotices([]));
   }, []);
 
   return (
@@ -49,19 +58,29 @@ export function HomePage() {
 
       <div className={styles.grid}>
         <RetroPanel title={t("home.newsTitle")}>
-          <ul className={styles.newsList}>
-            <li>
-              <span className={styles.newsDate}>2026.08.08</span>
-              <span>
-                {t("home.newsItem1")}
-                <span className={styles.newBadge}>NEW</span>
-              </span>
-            </li>
-            <li>
-              <span className={styles.newsDate}>2026.08.01</span>
-              <span>{t("home.newsItem2")}</span>
-            </li>
-          </ul>
+          {notices === null && <div className={styles.newsEmpty}>{t("loading.notices")}</div>}
+          {notices?.length === 0 && <div className={styles.newsEmpty}>{t("notice.empty")}</div>}
+          {notices && notices.length > 0 && (
+            <ul className={styles.newsList}>
+              {notices.map((n) => {
+                const isNew = Date.now() - new Date(n.publishedAt).getTime() < NEW_BADGE_WINDOW_MS;
+                return (
+                  <li key={n.id}>
+                    <Link to={`/notice/${n.id}`} className={styles.newsLink}>
+                      <span className={styles.newsDate}>{new Date(n.publishedAt).toLocaleDateString(locale)}</span>
+                      <span>
+                        <span className={styles.newsTitleText}>{noticeTitle(n, locale)}</span>
+                        {isNew && <span className={styles.newBadge}>NEW</span>}
+                      </span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+          <div className={styles.newsMore}>
+            <Link to="/notice">{t("notice.title")} →</Link>
+          </div>
         </RetroPanel>
 
         <RetroPanel title={t("home.statsTitle")}>

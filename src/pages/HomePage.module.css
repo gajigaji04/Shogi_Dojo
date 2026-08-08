@@ -63,10 +63,34 @@
 }
 
 .newsList li {
-  display: flex;
-  gap: var(--sp-3);
-  padding: 8px 0;
   border-bottom: 1px dashed var(--line);
+}
+
+.newsLink {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+  padding: 10px 4px;
+  min-height: 44px;
+  text-decoration: none;
+  color: var(--ink-900);
+}
+
+.newsLink:hover .newsTitleText {
+  color: var(--shu-600);
+  text-decoration: underline;
+}
+
+.newsEmpty {
+  padding: 8px 4px;
+  color: var(--ink-500);
+}
+
+.newsMore {
+  text-align: right;
+  margin-top: var(--sp-2);
+  font-family: var(--mono);
+  font-size: var(--fs-caption);
 }
 
 .newsDate {

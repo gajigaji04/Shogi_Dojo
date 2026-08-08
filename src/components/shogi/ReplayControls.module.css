@@ -1,0 +1,25 @@
+.bar {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+  border: 1px solid var(--line-strong);
+  background: var(--paper-50);
+  padding: var(--sp-3);
+}
+
+.moveLabel {
+  font-family: var(--mono);
+  font-size: var(--fs-small);
+  margin-left: var(--sp-2);
+}
+
+.speedSelect {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: var(--fs-small);
+  border: 1px solid var(--line-strong);
+  background: var(--paper-50);
+  padding: 6px 8px;
+  min-height: 36px;
+}

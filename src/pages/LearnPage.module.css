@@ -1,0 +1,125 @@
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: var(--sp-5);
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border: 1px solid var(--ink-700);
+  background: var(--paper-50);
+  padding: 0;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.dotActive {
+  background: var(--shu-600);
+  border-color: var(--shu-600);
+}
+
+.stepPanel {
+  margin-bottom: var(--sp-5);
+}
+
+.stepTitle {
+  font-size: var(--fs-h2);
+}
+
+.stepBody {
+  max-width: 62ch;
+  color: var(--ink-700);
+  margin-bottom: var(--sp-4);
+}
+
+.demoArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--sp-5);
+}
+
+.pieceGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-4);
+}
+
+.pieceCard {
+  border: 1px solid var(--line-strong);
+  background: var(--paper-50);
+  padding: var(--sp-3);
+  text-align: left;
+}
+
+.pieceCard h4 {
+  margin: 0 0 4px;
+  font-size: var(--fs-body-lg);
+}
+
+.pieceCard p {
+  margin: 0;
+  font-size: var(--fs-caption);
+  color: var(--ink-700);
+}
+
+.pieceSelectRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  justify-content: center;
+  margin-bottom: var(--sp-4);
+}
+
+.guideGrid {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: var(--sp-5);
+  align-items: start;
+}
+
+@media (max-width: 760px) {
+  .guideGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.guideList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  background: var(--paper-50);
+}
+
+.guideList button {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  border-bottom: 1px dashed var(--line);
+  padding: 10px var(--sp-3);
+  cursor: pointer;
+  font-family: var(--serif);
+  font-size: var(--fs-body);
+  min-height: 44px;
+}
+
+.guideList button:hover {
+  background: var(--wood-200);
+}
+
+.guideActive {
+  background: var(--wood-200);
+  font-weight: 700;
+  color: var(--shu-700);
+}

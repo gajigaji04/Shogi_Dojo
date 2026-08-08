@@ -1,0 +1,23 @@
+.panel {
+  border: 1px solid var(--line-strong);
+  background: var(--paper-50);
+  padding: var(--sp-4) var(--sp-5);
+  position: relative;
+}
+
+.panel::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border: 1px solid var(--line);
+  pointer-events: none;
+}
+
+.title {
+  font-family: var(--mono);
+  font-size: var(--fs-caption);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--wood-800);
+  margin-bottom: var(--sp-2);
+}

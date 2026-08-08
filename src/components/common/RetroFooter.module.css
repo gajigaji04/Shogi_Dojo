@@ -1,0 +1,24 @@
+.footer {
+  border-top: 1px solid var(--line-strong);
+  margin-top: var(--sp-8);
+  padding: var(--sp-5) var(--sp-4) var(--sp-6);
+  text-align: center;
+  font-family: var(--mono);
+  font-size: var(--fs-caption);
+  color: var(--ink-500);
+}
+
+.links {
+  display: flex;
+  justify-content: center;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+  margin-bottom: var(--sp-2);
+}
+
+.links a {
+  color: var(--ink-500);
+}
+.links a:hover {
+  color: var(--shu-600);
+}

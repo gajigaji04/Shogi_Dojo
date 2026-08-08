@@ -47,8 +47,8 @@
 }
 
 .small {
-  padding: 6px 12px;
-  min-height: 32px;
+  padding: 8px 12px;
+  min-height: 38px;
   font-size: var(--fs-caption);
 }
 

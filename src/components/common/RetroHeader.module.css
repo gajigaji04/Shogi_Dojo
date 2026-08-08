@@ -11,6 +11,8 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--sp-4);
+  flex-wrap: wrap;
+  row-gap: 8px;
 }
 
 .brand {
@@ -33,6 +35,42 @@
   font-size: var(--fs-caption);
   color: var(--ink-500);
   letter-spacing: 0.1em;
+}
+
+.userMenu {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: var(--fs-caption);
+  white-space: nowrap;
+}
+
+.userMenu a,
+.linkButton {
+  color: var(--ink-700);
+  text-decoration: none;
+}
+
+.userMenu a:hover,
+.linkButton:hover {
+  color: var(--shu-600);
+  text-decoration: underline;
+}
+
+.userNickname {
+  font-weight: 700;
+  color: var(--shu-700) !important;
+}
+
+.linkButton {
+  background: none;
+  border: none;
+  padding: 4px 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  min-height: 32px;
 }
 
 .menuToggle {

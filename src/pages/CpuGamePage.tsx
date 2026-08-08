@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { PageContainer } from "../components/common/PageContainer";
 import { RetroButton } from "../components/common/RetroButton";
 import { DifficultySelect } from "../components/game/DifficultySelect";
 import { GameBoardPanel } from "../components/game/GameBoardPanel";
+import { ResultModal } from "../components/game/ResultModal";
 import { useShogiGame } from "../hooks/useShogiGame";
 import { createCpuEngine } from "../game/ai/cpuPlayer";
 import type { Difficulty } from "../game/ai/cpuPlayer";
@@ -15,6 +16,7 @@ const CPU_PLAYER = "gote" as const;
 
 export function CpuGamePage() {
   const { t } = useI18n();
+  const navigate = useNavigate();
   const [started, setStarted] = useState(false);
   const [difficulty, setDifficulty] = useState<Difficulty>("normal");
   const [cpuThinking, setCpuThinking] = useState(false);
@@ -92,33 +94,26 @@ export function CpuGamePage() {
   }
 
   const gameOver = game.state.status !== "ongoing";
+  const outcome = gameOver ? (game.state.winner === "sente" ? "win" : "loss") : null;
+  const resultKind = game.state.status === "checkmate" ? "checkmate" : "resign";
 
   return (
     <PageContainer>
       <h1>{t("nav.playCpu")}</h1>
 
-      {gameOver && (
-        <div className={styles.resultBanner}>
-          <strong>{t("game.gameOver")}</strong>
-          <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
-            {lastSavedId && (
-              <Link to={`/replay/${lastSavedId}`}>
-                <RetroButton size="small">{t("game.viewReplay")}</RetroButton>
-              </Link>
-            )}
-            <RetroButton size="small" variant="primary" onClick={startGame}>
-              {t("game.newGame")}
-            </RetroButton>
-            <RetroButton size="small" onClick={backToSetup}>
-              {t("game.difficulty")}
-            </RetroButton>
-          </div>
-        </div>
-      )}
-
       <GameBoardPanel
         game={game}
         headerExtra={cpuThinking ? <span className={styles.thinking}>{t("game.cpuThinking")}</span> : undefined}
+      />
+
+      <ResultModal
+        open={gameOver}
+        outcome={outcome}
+        movesPlayed={game.state.history.length}
+        resultKind={resultKind}
+        onViewKifu={lastSavedId ? () => navigate(`/replay/${lastSavedId}`) : undefined}
+        onPlayAgain={startGame}
+        onExit={backToSetup}
       />
     </PageContainer>
   );

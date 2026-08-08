@@ -7,11 +7,11 @@ import { RetroButton } from "../common/RetroButton";
 import { RetroDialog } from "../common/RetroDialog";
 import { useI18n } from "../../i18n/I18nContext";
 import { pieceKanji } from "../../game/notation/kifu";
-import type { UseShogiGame } from "../../hooks/useShogiGame";
+import type { ShogiGameController } from "../../hooks/shogiGameController";
 import styles from "./GameBoardPanel.module.css";
 
 interface GameBoardPanelProps {
-  game: UseShogiGame;
+  game: ShogiGameController;
   headerExtra?: ReactNode;
   showResign?: boolean;
   showReset?: boolean;
@@ -84,7 +84,7 @@ export function GameBoardPanel({
         {hint && <div className={styles.hint}>{hint}</div>}
 
         <div className={styles.controls}>
-          {showReset && (
+          {showReset && game.reset && (
             <RetroButton onClick={() => setResetConfirmOpen(true)}>{t("common.reset")}</RetroButton>
           )}
           {showResign && state.status === "ongoing" && (
@@ -144,7 +144,7 @@ export function GameBoardPanel({
             <RetroButton
               variant="primary"
               onClick={() => {
-                game.reset();
+                game.reset?.();
                 setResetConfirmOpen(false);
               }}
             >

@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useReducer, useState } from "react";
-import type { BasePieceType, BoardMove, PieceType, Position } from "../game/types/shogi";
+import type { BasePieceType, BoardMove, GameState, PieceType, Position } from "../game/types/shogi";
 import { gameReducer } from "../game/state/gameReducer";
 import { createInitialGameState } from "../game/state/gameState";
 import { legalDropSquares, legalMovesFrom } from "../game/rules/legalMoves";
@@ -12,8 +12,11 @@ export interface PendingPromotion {
   piece: PieceType;
 }
 
-export function useShogiGame() {
-  const [state, dispatch] = useReducer(gameReducer, undefined, createInitialGameState);
+/** `createInitial` lets callers (e.g. the guided tutorial) start the same engine from
+ * a custom position instead of the standard opening — RESET still returns to the
+ * standard position, since that's what every other caller expects. */
+export function useShogiGame(createInitial: () => GameState = createInitialGameState) {
+  const [state, dispatch] = useReducer(gameReducer, undefined, createInitial);
   const [selected, setSelected] = useState<Position | null>(null);
   const [selectedDrop, setSelectedDrop] = useState<BasePieceType | null>(null);
   const [pendingPromotion, setPendingPromotion] = useState<PendingPromotion | null>(null);

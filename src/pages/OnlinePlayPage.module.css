@@ -1,0 +1,48 @@
+.center {
+  text-align: center;
+  padding: var(--sp-7) 0;
+}
+
+.spinnerText {
+  font-family: var(--mono);
+  font-size: var(--fs-body-lg);
+  color: var(--ink-700);
+  margin-bottom: var(--sp-5);
+}
+
+.dots::after {
+  content: "…";
+  animation: dots 1.2s steps(4, end) infinite;
+}
+
+@keyframes dots {
+  0%,
+  20% {
+    content: "";
+  }
+  40% {
+    content: ".";
+  }
+  60% {
+    content: "..";
+  }
+  80%,
+  100% {
+    content: "...";
+  }
+}
+
+.banner {
+  border: 1px solid var(--shu-600);
+  background: var(--wood-200);
+  padding: var(--sp-3) var(--sp-4);
+  margin-bottom: var(--sp-4);
+  text-align: center;
+}
+
+.matchedNotice {
+  text-align: center;
+  font-family: var(--serif);
+  color: var(--shu-700);
+  margin-bottom: var(--sp-3);
+}

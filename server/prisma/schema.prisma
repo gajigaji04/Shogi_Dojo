@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  nickname     String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+
+  gamesAsPlayer1 Game[] @relation("player1")
+  gamesAsPlayer2 Game[] @relation("player2")
+  gamesWon       Game[] @relation("winner")
+}
+
+model Game {
+  id         String    @id @default(cuid())
+  player1Id  String
+  player2Id  String
+  winnerId   String?
+  status     String // WAITING | PLAYING | FINISHED | ABANDONED
+  resultKind String? // checkmate | resign | disconnect
+  startedAt  DateTime  @default(now())
+  endedAt    DateTime?
+  createdAt  DateTime  @default(now())
+
+  player1 User       @relation("player1", fields: [player1Id], references: [id])
+  player2 User       @relation("player2", fields: [player2Id], references: [id])
+  winner  User?      @relation("winner", fields: [winnerId], references: [id])
+  moves   GameMove[]
+}
+
+model GameMove {
+  id         String   @id @default(cuid())
+  gameId     String
+  moveNumber Int
+  playerId   String
+  moveData   String // JSON: { move, notation, isCheck }
+  createdAt  DateTime @default(now())
+
+  game Game @relation(fields: [gameId], references: [id], onDelete: Cascade)
+}
+
+model Contact {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String
+  message   String
+  status    String   @default("new")
+  createdAt DateTime @default(now())
+}
+
+model Notice {
+  id          String   @id @default(cuid())
+  titleKo     String
+  titleJa     String
+  titleEn     String
+  contentKo   String
+  contentJa   String
+  contentEn   String
+  publishedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

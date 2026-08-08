@@ -1,0 +1,66 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(36, 24, 15, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-4);
+  z-index: 100;
+}
+
+.dialog {
+  width: 100%;
+  max-width: 380px;
+  border: 1px solid var(--line-strong);
+  background: var(--paper-50);
+  padding: var(--sp-6) var(--sp-5);
+  text-align: center;
+  position: relative;
+}
+
+.dialog::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border: 1px solid var(--line);
+  pointer-events: none;
+}
+
+.headline {
+  font-family: var(--serif);
+  font-size: var(--fs-display);
+  margin-bottom: var(--sp-2);
+}
+
+.win {
+  color: var(--shu-700);
+}
+.lose {
+  color: var(--ink-700);
+}
+
+.jp {
+  font-family: var(--serif);
+  font-size: var(--fs-h3);
+  color: var(--ink-500);
+  margin-bottom: var(--sp-4);
+}
+
+.meta {
+  font-family: var(--mono);
+  font-size: var(--fs-small);
+  color: var(--ink-700);
+  margin-bottom: var(--sp-5);
+}
+
+.meta div {
+  margin-bottom: 4px;
+}
+
+.actions {
+  display: flex;
+  gap: var(--sp-3);
+  justify-content: center;
+  flex-wrap: wrap;
+}

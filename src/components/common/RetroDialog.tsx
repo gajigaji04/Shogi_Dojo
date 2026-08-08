@@ -20,6 +20,14 @@ export function RetroDialog({ open, title, children, actions, onClose }: RetroDi
     return () => window.removeEventListener("keydown", handler);
   }, [open, onClose]);
 
+  useEffect(() => {
+    if (!open) return;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
   if (!open) return null;
 
   return (

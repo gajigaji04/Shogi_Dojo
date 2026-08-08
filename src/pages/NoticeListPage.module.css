@@ -1,0 +1,34 @@
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-width: 68ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.item {
+  display: block;
+  padding: var(--sp-4) 0;
+  border-bottom: 1px dashed var(--line);
+  text-decoration: none;
+  color: var(--ink-900);
+}
+
+.item:hover .title {
+  color: var(--shu-600);
+  text-decoration: underline;
+}
+
+.date {
+  display: block;
+  font-family: var(--mono);
+  font-size: var(--fs-caption);
+  color: var(--ink-500);
+  margin-bottom: 4px;
+}
+
+.title {
+  font-family: var(--serif);
+  font-size: var(--fs-body-lg);
+}

@@ -140,7 +140,18 @@
     "tutorialTitle": "Tutorial Game",
     "tutorialIntro": "Let's begin! Protect your king while driving your opponent's king into checkmate.",
     "tutorialHint": "Show hint",
-    "tutorialPlayThisMove": "Play this move"
+    "tutorialPlayThisMove": "Play this move",
+    "tutorialWaiting": "Waiting for the opponent's reply…",
+    "tutorialDoneTitle": "You've learned the basics of shogi!",
+    "tutorialDoneBody": "Now let's start a real game.",
+    "tutorialRestart": "Restart tutorial",
+    "tutorialSteps": {
+      "step1": "Let's move a pawn first. Click the highlighted pawn.",
+      "step2": "Squares it can move to are shown as green dots. Click one to capture the opponent's pawn.",
+      "step3": "A captured piece is added to your hand. Click the pawn in your hand, then click the highlighted empty square to drop it.",
+      "step4": "Click the highlighted silver, then move it into the opponent's camp. When asked whether to promote, choose \"Promote\".",
+      "step5": "Moving the piece you just promoted one more square puts the opponent's king in check. Click the highlighted piece to move it."
+    }
   },
   "replay": {
     "title": "Replay",
@@ -163,5 +174,103 @@
     "title": "Shogi Dojo",
     "recentGames": "Recent games",
     "noRecentGames": "No recent games yet."
+  },
+  "auth": {
+    "loginTitle": "Log In",
+    "registerTitle": "Create Account",
+    "email": "Email",
+    "password": "Password",
+    "passwordConfirm": "Confirm password",
+    "nickname": "Nickname",
+    "loginButton": "Log in",
+    "registerButton": "Create account",
+    "loggingIn": "Logging in…",
+    "registering": "Creating account…",
+    "noAccount": "Don't have an account yet?",
+    "haveAccount": "Already have an account?",
+    "goRegister": "Create one",
+    "goLogin": "Log in",
+    "passwordMismatch": "Passwords don't match.",
+    "loginRequiredTitle": "Login required",
+    "loginRequiredBody": "You need to log in to play online.",
+    "logout": "Log out",
+    "myGames": "My games",
+    "welcomeBack": "Welcome back, {{nickname}}."
+  },
+  "online": {
+    "title": "Play Online",
+    "searching": "Looking for an opponent…",
+    "cancelSearch": "Cancel",
+    "matchedWith": "Matched with {{nickname}}",
+    "connecting": "Connecting to the server…",
+    "connectionLost": "Connection lost.",
+    "connectionLostBody": "The connection to the game server was lost.",
+    "reconnect": "Reconnect",
+    "opponentDisconnected": "Your opponent disconnected — the game has ended.",
+    "findOpponent": "Find an opponent"
+  },
+  "result": {
+    "youWin": "You Win!",
+    "youLose": "You Lose",
+    "gameEndedBy": "Ended by",
+    "byCheckmate": "Checkmate",
+    "byResign": "Resignation",
+    "byDisconnect": "Opponent disconnected",
+    "movesPlayed": "{{n}} moves",
+    "viewKifu": "View kifu",
+    "exit": "Exit",
+    "playAgain": "Play again"
+  },
+  "contact": {
+    "title": "Contact",
+    "name": "Name",
+    "email": "Email",
+    "subject": "Subject",
+    "message": "Message",
+    "submit": "Send",
+    "submitting": "Sending…",
+    "successTitle": "Your message has been received.",
+    "successBody": "Thanks for reaching out — we'll get back to you soon."
+  },
+  "notice": {
+    "title": "News",
+    "backToList": "Back to list",
+    "empty": "There are no notices yet."
+  },
+  "about": {
+    "title": "About This Site",
+    "intro": "This site is a learning-and-play website built by a Korean developer while studying and coming to understand shogi, Japan's traditional board game.",
+    "body": "This dojo exists because implementing each rule myself, one at a time, and checking that it actually holds up was the best way to learn shogi. It's still a small dojo, but the hope is that anyone can drop in without pressure, learn the rules, and play a few moves.",
+    "noteTitle": "A note",
+    "noteBody": "Some of the explanations of shogi's history, rules, and terminology may be incomplete or contain mistakes. If you spot something wrong or that could be improved, please let us know via Contact.",
+    "contactCta": "Go to Contact"
+  },
+  "aboutShogi": {
+    "title": "About Shogi",
+    "whatTitle": "What is Shogi?",
+    "whatBody": "Shogi is a traditional Japanese board game in which two players move pieces on a 9×9 board to capture the opponent's king. It belongs to the same family as chess and janggi, but has a signature rule: a captured piece doesn't vanish — it can be reused as your own.",
+    "historyTitle": "History of Shogi",
+    "historyBody": "Shogi is one of the games descended from ancient India's chaturanga, and it developed independently in Japan. Its existence is documented as far back as the Heian period, and by the Edo period its rules and piece set had settled into roughly their present form. Today, professionals and amateurs alike still play together at shogi dojos across Japan.",
+    "boardTitle": "The Board and Pieces",
+    "boardBody": "The shogi board has 9×9, or 81, squares. Each player starts with 20 pieces: one king, one rook, one bishop, two golds, two silvers, two knights, two lances, and nine pawns.",
+    "uniqueTitle": "Rules Unique to Shogi",
+    "uniqueRules": [
+      "Promotion — a piece that enters the opponent's camp can flip over into a stronger form.",
+      "Captured pieces — a piece taken from the opponent doesn't disappear; it becomes yours to use again.",
+      "Drops — a captured piece in hand can be placed on any empty square as a move.",
+      "Two-pawn rule — you may not have two of your own unpromoted pawns on the same file.",
+      "Checkmate — the game ends the moment the king has no move that escapes capture."
+    ],
+    "chessTitle": "Shogi vs. Chess",
+    "chessBody": "Chess and shogi share the same core goal of checkmating the king, but because captured pieces can return to the board in shogi, the position rarely simplifies — attack and defense often stay locked in tension until the very end. Shogi's pieces are also all the same color and shape (a pentagon), distinguished only by the character written on them and which way they face — quite unlike chess."
+  },
+  "notFound": {
+    "title": "404",
+    "body": "The page you're looking for couldn't be found.",
+    "backHome": "Back to home"
+  },
+  "loading": {
+    "notices": "Loading notices…",
+    "game": "Loading game…"
   }
 }

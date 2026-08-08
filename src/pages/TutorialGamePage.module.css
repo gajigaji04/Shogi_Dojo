@@ -1,0 +1,51 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+  margin-bottom: var(--sp-3);
+}
+
+.progressDots {
+  display: flex;
+  gap: 8px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--ink-700);
+  border-radius: 50%;
+  background: var(--paper-50);
+}
+
+.dotDone {
+  background: var(--moss-600);
+  border-color: var(--moss-600);
+}
+
+.dotActive {
+  background: var(--shu-600);
+  border-color: var(--shu-600);
+}
+
+.instruction {
+  border: 1px solid var(--shu-600);
+  background: var(--wood-200);
+  padding: var(--sp-3) var(--sp-4);
+  margin-bottom: var(--sp-4);
+  font-family: var(--serif);
+  font-size: var(--fs-body-lg);
+}
+
+.waiting {
+  font-family: var(--mono);
+  font-size: var(--fs-caption);
+  color: var(--ink-500);
+}
+
+.doneWrap {
+  text-align: center;
+  padding: var(--sp-7) 0;
+}

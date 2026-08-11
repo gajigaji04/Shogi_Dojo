@@ -39,6 +39,12 @@ export function GameBoardPanel({
     if (state.status === "resigned" && state.winner) {
       return `${t("game.resigned")} — ${t("game.winnerIs", { player: t(state.winner === "sente" ? "game.sente" : "game.gote") })}`;
     }
+    if (state.status === "sennichite") {
+      return t("game.sennichiteNotice");
+    }
+    if (state.status === "perpetual_check" && state.winner) {
+      return `${t("game.perpetualCheckNotice")} — ${t("game.winnerIs", { player: t(state.winner === "sente" ? "game.sente" : "game.gote") })}`;
+    }
     if (state.isCheck) return t("game.check");
     return t(state.currentPlayer === "sente" ? "game.turnSente" : "game.turnGote");
   })();

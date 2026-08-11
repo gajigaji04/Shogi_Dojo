@@ -94,8 +94,17 @@ export function CpuGamePage() {
   }
 
   const gameOver = game.state.status !== "ongoing";
-  const outcome = gameOver ? (game.state.winner === "sente" ? "win" : "loss") : null;
-  const resultKind = game.state.status === "checkmate" ? "checkmate" : "resign";
+  const outcome = !gameOver
+    ? null
+    : game.state.status === "sennichite"
+      ? "draw"
+      : game.state.winner === "sente"
+        ? "win"
+        : "loss";
+  const resultKind =
+    game.state.status === "checkmate" || game.state.status === "sennichite" || game.state.status === "perpetual_check"
+      ? game.state.status
+      : "resign";
 
   return (
     <PageContainer>

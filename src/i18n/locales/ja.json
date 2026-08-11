@@ -87,7 +87,10 @@
     "checkmate": "チェックメイト",
     "checkmateNotice": "詰み",
     "resigned": "投了しました",
+    "sennichiteNotice": "千日手",
+    "perpetualCheckNotice": "連続王手の千日手（反則負け）",
     "winnerIs": "{{player}}の勝ち",
+    "drawn": "引き分け",
     "sente": "先手",
     "gote": "後手",
     "capturedPieces": "持ち駒",
@@ -168,7 +171,11 @@
     "selectFile": "ファイルを選択",
     "format": "形式",
     "openInViewer": "ビューアーで開く",
-    "notSupportedYet": "この形式はまだ対応していません。"
+    "notSupportedYet": "この形式はまだ対応していません。",
+    "dropHint": "KIFファイルをここにドラッグ＆ドロップするか、クリックして選択してください。",
+    "parsing": "棋譜を読み込んでいます…",
+    "parseErrorTitle": "棋譜を読み込めませんでした。",
+    "supportedFormats": "対応形式：KIF（.kif, .kifu）— 平手の棋譜のみ対応しています。"
   },
   "profile": {
     "title": "将棋道場",
@@ -207,15 +214,21 @@
     "connectionLostBody": "対局サーバーとの接続が切断されました。",
     "reconnect": "再接続",
     "opponentDisconnected": "相手の接続が切断されたため対局が終了しました。",
-    "findOpponent": "対戦相手を探す"
+    "findOpponent": "対戦相手を探す",
+    "claimTimeoutHint": "相手が長時間応答していません。",
+    "claimTimeoutButton": "勝利を申請する"
   },
   "result": {
     "youWin": "勝ち！",
     "youLose": "負け",
+    "youDraw": "引き分け",
     "gameEndedBy": "終了理由",
     "byCheckmate": "詰み",
     "byResign": "投了",
     "byDisconnect": "相手の接続切断",
+    "bySennichite": "千日手（同一局面4回）",
+    "byPerpetualCheck": "連続王手の千日手（反則負け）",
+    "byTimeout": "制限時間切れ",
     "movesPlayed": "{{n}}手",
     "viewKifu": "棋譜を見る",
     "exit": "退出",

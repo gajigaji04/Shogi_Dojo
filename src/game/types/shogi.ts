@@ -49,7 +49,10 @@ export interface DropMove {
 
 export type Move = BoardMove | DropMove;
 
-export type GameStatus = "ongoing" | "checkmate" | "resigned";
+/** "sennichite" — ordinary repetition draw (千日手). "perpetual_check" — the same
+ * position repeated four times purely because one side gave check on every one of
+ * those moves (連続王手の千日手); that side loses instead of the game drawing. */
+export type GameStatus = "ongoing" | "checkmate" | "resigned" | "sennichite" | "perpetual_check";
 
 /** A recorded ply: the move itself, plus the resulting notation and a full state
  * snapshot, so replay can jump to any point without replaying logic. */

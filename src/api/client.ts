@@ -1,6 +1,8 @@
 import { getToken } from "../auth/tokenStorage";
 
-const API_URL = import.meta.env.VITE_API_URL;
+// Empty string on purpose when unset: on Vercel the frontend and /api/* share an
+// origin, so requests should be relative paths, not an absolute localhost URL.
+const API_URL = import.meta.env.VITE_API_URL ?? "";
 
 export class ApiError extends Error {
   status: number;

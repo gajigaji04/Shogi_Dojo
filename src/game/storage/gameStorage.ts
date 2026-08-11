@@ -7,7 +7,7 @@ export interface GameRecord {
   id: string;
   date: string; // ISO
   opponentLabel: string;
-  mode: "cpu" | "tutorial";
+  mode: "cpu" | "tutorial" | "imported";
   status: GameStatus;
   winner?: Player;
   humanPlayer: Player;

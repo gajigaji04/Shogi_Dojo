@@ -39,6 +39,10 @@
   color: var(--shu-700);
   font-weight: 700;
 }
+.draw {
+  color: var(--ink-500);
+  font-weight: 700;
+}
 
 .link {
   text-decoration: none;

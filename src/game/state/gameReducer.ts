@@ -4,10 +4,11 @@ import { applyMoveToBoard } from "../rules/boardOps";
 import { getLegalMoves } from "../rules/legalMoves";
 import { isInCheck } from "../rules/check";
 import { hasNoLegalMoves } from "../rules/checkmate";
+import { detectRepetition } from "../rules/repetition";
 import { moveToNotation } from "../notation/kifu";
 import { createInitialGameState } from "./gameState";
 
-export type GameAction = { type: "MOVE"; move: Move } | { type: "RESIGN" } | { type: "RESET" };
+export type GameAction = { type: "MOVE"; move: Move } | { type: "RESIGN" } | { type: "TIMEOUT" } | { type: "RESET" };
 
 function movesEqual(a: Move, b: Move): boolean {
   if (a.kind !== b.kind || a.player !== b.player) return false;
@@ -25,6 +26,13 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
       return createInitialGameState();
 
     case "RESIGN": {
+      if (state.status !== "ongoing") return state;
+      return { ...state, status: "resigned", winner: opponentOf(state.currentPlayer) };
+    }
+
+    // The player whose turn it currently is failed to move in time — they forfeit,
+    // same terminal shape as a resignation (the online layer labels it distinctly).
+    case "TIMEOUT": {
       if (state.status !== "ongoing") return state;
       return { ...state, status: "resigned", winner: opponentOf(state.currentPlayer) };
     }
@@ -48,24 +56,39 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
       const previousTo = state.history[state.history.length - 1]?.move.to;
       const notation = moveToNotation(matched, previousTo);
 
+      const nextHistory = [
+        ...state.history,
+        {
+          move: matched,
+          notation,
+          isCheck: nextIsCheck,
+          boardAfter: nextBoard,
+          handsAfter: nextHands,
+          currentPlayerAfter: nextPlayer,
+        },
+      ];
+
+      let status: GameState["status"] = opponentHasNoMoves ? "checkmate" : "ongoing";
+      let winner: GameState["winner"] = opponentHasNoMoves ? state.currentPlayer : undefined;
+
+      if (status === "ongoing") {
+        const repetition = detectRepetition(nextHistory);
+        if (repetition.type === "sennichite") {
+          status = "sennichite";
+        } else if (repetition.type === "perpetual_check") {
+          status = "perpetual_check";
+          winner = opponentOf(repetition.loser);
+        }
+      }
+
       const nextState: GameState = {
         board: nextBoard,
         hands: nextHands,
         currentPlayer: nextPlayer,
-        status: opponentHasNoMoves ? "checkmate" : "ongoing",
-        winner: opponentHasNoMoves ? state.currentPlayer : undefined,
+        status,
+        winner,
         isCheck: nextIsCheck,
-        history: [
-          ...state.history,
-          {
-            move: matched,
-            notation,
-            isCheck: nextIsCheck,
-            boardAfter: nextBoard,
-            handsAfter: nextHands,
-            currentPlayerAfter: nextPlayer,
-          },
-        ],
+        history: nextHistory,
       };
       return nextState;
     }

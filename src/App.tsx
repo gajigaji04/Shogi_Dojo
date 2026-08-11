@@ -9,6 +9,7 @@ import { CpuGamePage } from "./pages/CpuGamePage";
 import { OnlinePlayPage } from "./pages/OnlinePlayPage";
 import { ReplayListPage } from "./pages/ReplayListPage";
 import { ReplayViewerPage } from "./pages/ReplayViewerPage";
+import { KifuImportPage } from "./pages/KifuImportPage";
 import { ProfilePage } from "./pages/ProfilePage";
 import { LoginPage } from "./pages/LoginPage";
 import { RegisterPage } from "./pages/RegisterPage";
@@ -33,6 +34,7 @@ export default function App() {
           <Route path="/play/online" element={<OnlinePlayPage />} />
           <Route path="/replay" element={<ReplayListPage />} />
           <Route path="/replay/:id" element={<ReplayViewerPage />} />
+          <Route path="/kifu" element={<KifuImportPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />

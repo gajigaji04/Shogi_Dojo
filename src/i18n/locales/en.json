@@ -87,7 +87,10 @@
     "checkmate": "Checkmate",
     "checkmateNotice": "Checkmate",
     "resigned": "Resigned",
+    "sennichiteNotice": "Repetition draw (sennichite)",
+    "perpetualCheckNotice": "Perpetual check — loss by repeated check",
     "winnerIs": "{{player}} wins",
+    "drawn": "Draw",
     "sente": "Sente",
     "gote": "Gote",
     "capturedPieces": "Captured pieces",
@@ -168,7 +171,11 @@
     "selectFile": "Choose file",
     "format": "Format",
     "openInViewer": "Open in viewer",
-    "notSupportedYet": "This format isn't supported yet."
+    "notSupportedYet": "This format isn't supported yet.",
+    "dropHint": "Drag and drop a KIF file here, or click to choose one.",
+    "parsing": "Reading the kifu…",
+    "parseErrorTitle": "Couldn't import this kifu.",
+    "supportedFormats": "Supported: KIF (.kif, .kifu) — even (平手) games only."
   },
   "profile": {
     "title": "Shogi Dojo",
@@ -207,15 +214,21 @@
     "connectionLostBody": "The connection to the game server was lost.",
     "reconnect": "Reconnect",
     "opponentDisconnected": "Your opponent disconnected — the game has ended.",
-    "findOpponent": "Find an opponent"
+    "findOpponent": "Find an opponent",
+    "claimTimeoutHint": "Your opponent hasn't responded in a while.",
+    "claimTimeoutButton": "Claim the win"
   },
   "result": {
     "youWin": "You Win!",
     "youLose": "You Lose",
+    "youDraw": "Draw",
     "gameEndedBy": "Ended by",
     "byCheckmate": "Checkmate",
     "byResign": "Resignation",
     "byDisconnect": "Opponent disconnected",
+    "bySennichite": "Sennichite (same position 4 times)",
+    "byPerpetualCheck": "Perpetual check (loss by repeated check)",
+    "byTimeout": "Timed out",
     "movesPlayed": "{{n}} moves",
     "viewKifu": "View kifu",
     "exit": "Exit",

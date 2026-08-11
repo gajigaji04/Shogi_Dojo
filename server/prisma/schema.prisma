@@ -1,9 +1,10 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -14,9 +15,10 @@ model User {
   passwordHash String
   createdAt    DateTime @default(now())
 
-  gamesAsPlayer1 Game[] @relation("player1")
-  gamesAsPlayer2 Game[] @relation("player2")
-  gamesWon       Game[] @relation("winner")
+  gamesAsPlayer1 Game[]       @relation("player1")
+  gamesAsPlayer2 Game[]       @relation("player2")
+  gamesWon       Game[]       @relation("winner")
+  matchQueue     MatchQueue?
 }
 
 model Game {
@@ -25,7 +27,11 @@ model Game {
   player2Id  String
   winnerId   String?
   status     String // WAITING | PLAYING | FINISHED | ABANDONED
-  resultKind String? // checkmate | resign | disconnect
+  resultKind String? // checkmate | resign | disconnect | sennichite | perpetual_check
+  // Full current GameState (board/hands/currentPlayer/status/winner/isCheck), so a
+  // poll can read the live position in one query instead of replaying every move.
+  stateJson  Json
+  lastMoveAt DateTime  @default(now())
   startedAt  DateTime  @default(now())
   endedAt    DateTime?
   createdAt  DateTime  @default(now())
@@ -34,6 +40,10 @@ model Game {
   player2 User       @relation("player2", fields: [player2Id], references: [id])
   winner  User?      @relation("winner", fields: [winnerId], references: [id])
   moves   GameMove[]
+
+  @@index([player1Id])
+  @@index([player2Id])
+  @@index([status])
 }
 
 model GameMove {
@@ -41,10 +51,21 @@ model GameMove {
   gameId     String
   moveNumber Int
   playerId   String
-  moveData   String // JSON: { move, notation, isCheck }
+  moveData   String // JSON: { move, notation, isCheck, boardAfter, handsAfter, currentPlayerAfter }
   createdAt  DateTime @default(now())
 
   game Game @relation(fields: [gameId], references: [id], onDelete: Cascade)
+
+  @@index([gameId])
+}
+
+/** A single-row-per-user matchmaking waiting list. Replaces the old in-memory queue
+ * so matchmaking works across separate, stateless serverless invocations. */
+model MatchQueue {
+  userId    String   @id
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Contact {

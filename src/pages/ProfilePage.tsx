@@ -7,11 +7,18 @@ import { useAuth } from "../auth/AuthContext";
 import { useI18n } from "../i18n/I18nContext";
 import styles from "./ProfilePage.module.css";
 
+type Result = "win" | "loss" | "draw";
+
 interface Row {
   id: string;
   date: string;
   opponentLabel: string;
-  won: boolean;
+  result: Result;
+}
+
+function resultOf(winner: "sente" | "gote" | null | undefined, humanPlayer: "sente" | "gote"): Result {
+  if (!winner) return "draw";
+  return winner === humanPlayer ? "win" : "loss";
 }
 
 interface MineGamesResponse {
@@ -21,6 +28,7 @@ interface MineGamesResponse {
     opponent: string;
     humanPlayer: "sente" | "gote";
     winner: "sente" | "gote" | null;
+    status: string;
   }[];
 }
 
@@ -34,7 +42,7 @@ export function ProfilePage() {
       id: g.id,
       date: g.date,
       opponentLabel: g.opponentLabel,
-      won: g.winner === g.humanPlayer,
+      result: resultOf(g.winner, g.humanPlayer),
     }));
 
     if (status !== "authenticated") {
@@ -46,27 +54,35 @@ export function ProfilePage() {
       .get<MineGamesResponse>("/api/games/mine")
       .then((res) => {
         const online: Row[] = res.games
-          .filter((g) => g.winner !== null)
+          .filter((g) => g.status === "FINISHED" || g.status === "ABANDONED")
           .map((g) => ({
             id: g.id,
             date: g.startedAt,
             opponentLabel: g.opponent,
-            won: g.winner === g.humanPlayer,
+            result: resultOf(g.winner, g.humanPlayer),
           }));
         setRows([...local, ...online].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
       })
       .catch(() => setRows(local));
   }, [status]);
 
-  const wins = rows.filter((g) => g.won).length;
-  const losses = rows.length - wins;
+  const wins = rows.filter((g) => g.result === "win").length;
+  const losses = rows.filter((g) => g.result === "loss").length;
+  const draws = rows.filter((g) => g.result === "draw").length;
   const winRate = rows.length > 0 ? Math.round((wins / rows.length) * 100) : 0;
+
+  const resultClass: Record<Result, string> = { win: styles.win, loss: styles.loss, draw: styles.draw };
+  const resultLabel: Record<Result, string> = { win: t("common.wins"), loss: t("common.loses"), draw: t("game.drawn") };
 
   return (
     <PageContainer>
       <div className={styles.banner}>
         <div className={styles.bannerTitle}>{t("profile.title")}</div>
-        {user && <div style={{ fontFamily: "var(--mono)", fontSize: "var(--fs-small)", color: "var(--ink-700)" }}>{t("auth.welcomeBack", { nickname: user.nickname })}</div>}
+        {user && (
+          <div style={{ fontFamily: "var(--mono)", fontSize: "var(--fs-small)", color: "var(--ink-700)" }}>
+            {t("auth.welcomeBack", { nickname: user.nickname })}
+          </div>
+        )}
       </div>
 
       <div className={styles.statsRow}>
@@ -82,6 +98,12 @@ export function ProfilePage() {
           <div className={styles.statValue}>{losses}</div>
           <div className={styles.statLabel}>{t("common.loses")}</div>
         </div>
+        {draws > 0 && (
+          <div className={styles.statBlock}>
+            <div className={styles.statValue}>{draws}</div>
+            <div className={styles.statLabel}>{t("game.drawn")}</div>
+          </div>
+        )}
         <div className={styles.statBlock}>
           <div className={styles.statValue}>{winRate}%</div>
           <div className={styles.statLabel}>{t("common.winRate")}</div>
@@ -102,7 +124,7 @@ export function ProfilePage() {
                 <span>
                   {t("common.vs")} {g.opponentLabel}
                 </span>
-                <span className={g.won ? styles.win : styles.loss}>{g.won ? t("common.wins") : t("common.loses")}</span>
+                <span className={resultClass[g.result]}>{resultLabel[g.result]}</span>
               </Link>
             </li>
           ))}

@@ -1,0 +1,52 @@
+.dropZone {
+  max-width: 520px;
+  margin: 0 auto var(--sp-5);
+  border: 2px dashed var(--wood-600);
+  background: var(--paper-50);
+  padding: var(--sp-7) var(--sp-5);
+  text-align: center;
+  cursor: pointer;
+}
+
+.dropZone:hover,
+.dropZoneActive {
+  background: var(--wood-200);
+  border-color: var(--shu-600);
+}
+
+.dropZone input {
+  display: none;
+}
+
+.hint {
+  font-family: var(--serif);
+  font-size: var(--fs-body-lg);
+  margin-bottom: var(--sp-2);
+}
+
+.formats {
+  font-family: var(--mono);
+  font-size: var(--fs-caption);
+  color: var(--ink-500);
+}
+
+.status {
+  max-width: 520px;
+  margin: 0 auto;
+  text-align: center;
+  color: var(--ink-700);
+}
+
+.error {
+  max-width: 520px;
+  margin: 0 auto;
+  border: 1px solid var(--shu-600);
+  background: var(--wood-200);
+  padding: var(--sp-4);
+  color: var(--shu-700);
+}
+
+.error strong {
+  display: block;
+  margin-bottom: 6px;
+}

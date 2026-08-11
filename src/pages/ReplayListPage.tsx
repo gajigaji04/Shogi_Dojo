@@ -1,17 +1,25 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { PageContainer } from "../components/common/PageContainer";
+import { RetroButton } from "../components/common/RetroButton";
 import { listGames } from "../game/storage/gameStorage";
 import { api } from "../api/client";
 import { useAuth } from "../auth/AuthContext";
 import { useI18n } from "../i18n/I18nContext";
 import styles from "./ReplayListPage.module.css";
 
+type Result = "win" | "loss" | "draw";
+
 interface Row {
   id: string;
   date: string;
   opponentLabel: string;
-  won: boolean | null;
+  result: Result;
+}
+
+function resultOf(winner: "sente" | "gote" | null | undefined, humanPlayer: "sente" | "gote"): Result {
+  if (!winner) return "draw";
+  return winner === humanPlayer ? "win" : "loss";
 }
 
 interface MineGamesResponse {
@@ -21,6 +29,7 @@ interface MineGamesResponse {
     opponent: string;
     humanPlayer: "sente" | "gote";
     winner: "sente" | "gote" | null;
+    status: string;
   }[];
 }
 
@@ -34,7 +43,7 @@ export function ReplayListPage() {
       id: g.id,
       date: g.date,
       opponentLabel: g.opponentLabel,
-      won: g.winner === g.humanPlayer,
+      result: resultOf(g.winner, g.humanPlayer),
     }));
 
     if (status !== "authenticated") {
@@ -46,21 +55,29 @@ export function ReplayListPage() {
       .get<MineGamesResponse>("/api/games/mine")
       .then((res) => {
         const online: Row[] = res.games
-          .filter((g) => g.winner !== null)
+          .filter((g) => g.status === "FINISHED" || g.status === "ABANDONED")
           .map((g) => ({
             id: g.id,
             date: g.startedAt,
             opponentLabel: g.opponent,
-            won: g.winner === g.humanPlayer,
+            result: resultOf(g.winner, g.humanPlayer),
           }));
         setRows([...local, ...online].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
       })
       .catch(() => setRows(local));
   }, [status]);
 
+  const resultClass: Record<Result, string> = { win: styles.win, loss: styles.loss, draw: styles.draw };
+  const resultLabel: Record<Result, string> = { win: t("common.wins"), loss: t("common.loses"), draw: t("game.drawn") };
+
   return (
     <PageContainer>
-      <h1>{t("replay.title")}</h1>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "12px" }}>
+        <h1 style={{ margin: 0 }}>{t("replay.title")}</h1>
+        <Link to="/kifu">
+          <RetroButton size="small">{t("kifu.title")}</RetroButton>
+        </Link>
+      </div>
       {rows.length === 0 ? (
         <div className={styles.empty}>{t("replay.noGames")}</div>
       ) : (
@@ -87,9 +104,7 @@ export function ReplayListPage() {
                 </td>
                 <td>
                   <Link className={styles.link} to={`/replay/${g.id}`}>
-                    <span className={g.won ? styles.win : styles.loss}>
-                      {g.won ? t("common.wins") : t("common.loses")}
-                    </span>
+                    <span className={resultClass[g.result]}>{resultLabel[g.result]}</span>
                   </Link>
                 </td>
               </tr>

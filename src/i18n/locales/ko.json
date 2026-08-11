@@ -87,7 +87,10 @@
     "checkmate": "체크메이트",
     "checkmateNotice": "체크메이트",
     "resigned": "투료했습니다",
+    "sennichiteNotice": "千日手 — 무승부",
+    "perpetualCheckNotice": "連続王手の千日手 — 반칙패",
     "winnerIs": "{{player}} 승리",
+    "drawn": "무승부",
     "sente": "선수",
     "gote": "후수",
     "capturedPieces": "잡은 기물",
@@ -168,7 +171,11 @@
     "selectFile": "파일 선택",
     "format": "형식",
     "openInViewer": "뷰어에서 열기",
-    "notSupportedYet": "이 형식은 아직 지원되지 않습니다."
+    "notSupportedYet": "이 형식은 아직 지원되지 않습니다.",
+    "dropHint": "KIF 파일을 여기에 끌어다 놓거나 클릭해서 선택하세요.",
+    "parsing": "기보를 읽는 중…",
+    "parseErrorTitle": "기보를 불러오지 못했습니다.",
+    "supportedFormats": "지원 형식: KIF (.kif, .kifu) — 平手(맞바둑) 기보만 지원됩니다."
   },
   "profile": {
     "title": "将棋道場",
@@ -207,15 +214,21 @@
     "connectionLostBody": "대국 서버와의 연결이 끊어졌습니다.",
     "reconnect": "다시 연결",
     "opponentDisconnected": "상대방의 연결이 끊어져 대국이 종료되었습니다.",
-    "findOpponent": "상대 찾기"
+    "findOpponent": "상대 찾기",
+    "claimTimeoutHint": "상대가 오랫동안 응답하지 않고 있습니다.",
+    "claimTimeoutButton": "승리 처리 요청"
   },
   "result": {
     "youWin": "승리！",
     "youLose": "패배",
+    "youDraw": "무승부",
     "gameEndedBy": "종료 사유",
     "byCheckmate": "체크메이트",
     "byResign": "투료",
     "byDisconnect": "상대방 연결 끊김",
+    "bySennichite": "千日手(같은 국면 4회 반복)",
+    "byPerpetualCheck": "連続王手의 千日手(반칙패)",
+    "byTimeout": "제한 시간 초과",
     "movesPlayed": "{{n}}수",
     "viewKifu": "기보 보기",
     "exit": "나가기",

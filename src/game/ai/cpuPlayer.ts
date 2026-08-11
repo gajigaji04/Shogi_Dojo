@@ -1,11 +1,12 @@
-// CPU opponent abstraction. The MVP implementation picks a uniformly random legal
-// move — it never considers an illegal move because it only ever selects from
-// getLegalMoves(). Swapping in a stronger engine (minimax, or eventually a USI
-// engine over a worker/subprocess) only requires implementing `CpuEngine`; the
-// game state / UI layers are unaware of the difference.
+// CPU opponent abstraction. Every engine here only ever selects from
+// getLegalMoves()/findBestMove() (which itself only searches legal moves), so no
+// implementation can produce an illegal move. Swapping in a stronger engine (or
+// eventually a USI engine over a worker/subprocess) only requires implementing
+// `CpuEngine`; the game state / UI layers are unaware of the difference.
 
 import type { GameState, Move } from "../types/shogi";
 import { getLegalMoves } from "../rules/legalMoves";
+import { findBestMove } from "./minimax";
 
 export type Difficulty = "beginner" | "easy" | "normal" | "hard" | "expert";
 
@@ -21,6 +22,8 @@ function pickPromotionPreferring<T extends Move>(moves: T[]): T {
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
+/** Uniformly random legal move — no lookahead, no evaluation. The intentional
+ * floor of the difficulty ladder. */
 export class RandomCpuEngine implements CpuEngine {
   async chooseMove(state: GameState): Promise<Move | null> {
     const legal = getLegalMoves(state.board, state.hands, state.currentPlayer);
@@ -29,9 +32,29 @@ export class RandomCpuEngine implements CpuEngine {
   }
 }
 
-/** Difficulty currently only affects "thinking" pacing in the UI; the engine
- * implementation is where real strength differences would be introduced later
- * (e.g. shallow minimax for "hard", full USI engine for "expert"). */
-export function createCpuEngine(_difficulty: Difficulty): CpuEngine {
-  return new RandomCpuEngine();
+/** Negamax + alpha-beta, iterative deepening within a wall-clock time budget.
+ * Strength scales with the budget: more time -> deeper search -> stronger play. */
+export class MinimaxCpuEngine implements CpuEngine {
+  private readonly timeBudgetMs: number;
+
+  constructor(timeBudgetMs: number) {
+    this.timeBudgetMs = timeBudgetMs;
+  }
+
+  async chooseMove(state: GameState): Promise<Move | null> {
+    return findBestMove(state.board, state.hands, state.currentPlayer, this.timeBudgetMs);
+  }
+}
+
+const TIME_BUDGET_MS: Partial<Record<Difficulty, number>> = {
+  easy: 120,
+  normal: 350,
+  hard: 700,
+  expert: 1400,
+};
+
+export function createCpuEngine(difficulty: Difficulty): CpuEngine {
+  const budget = TIME_BUDGET_MS[difficulty];
+  if (!budget) return new RandomCpuEngine(); // "beginner"
+  return new MinimaxCpuEngine(budget);
 }

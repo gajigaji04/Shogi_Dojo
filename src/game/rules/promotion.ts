@@ -1,5 +1,5 @@
-import { PROMOTION_MAP } from "../types/shogi";
-import type { PieceType, Player } from "../types/shogi";
+import { PROMOTION_MAP } from "../types/shogi.js";
+import type { PieceType, Player } from "../types/shogi.js";
 
 /** Rows (0-indexed) that make up each player's promotion zone (敵陣, the far three ranks). */
 export function promotionZoneRows(player: Player): number[] {

@@ -8,13 +8,13 @@
 // A player with zero legal moves has lost (shogi has no draw-by-stalemate: a player
 // who cannot move, loses, whether or not they are currently in check).
 
-import { opponentOf } from "../types/shogi";
-import type { Board, BoardMove, DropMove, Hands, Move, Piece, Player, Position } from "../types/shogi";
-import { pseudoLegalMoves } from "./pieceMovement";
-import { isPromotionEligible, isPromotionForced } from "./promotion";
-import { structurallyLegalDropSquares } from "./drops";
-import { isInCheck } from "./check";
-import { applyMoveToBoard } from "./boardOps";
+import { opponentOf } from "../types/shogi.js";
+import type { Board, BoardMove, DropMove, Hands, Move, Piece, Player, Position } from "../types/shogi.js";
+import { pseudoLegalMoves } from "./pieceMovement.js";
+import { isPromotionEligible, isPromotionForced } from "./promotion.js";
+import { structurallyLegalDropSquares } from "./drops.js";
+import { isInCheck } from "./check.js";
+import { applyMoveToBoard } from "./boardOps.js";
 
 function boardMoveCandidates(board: Board, from: Position, piece: Piece): BoardMove[] {
   const moves: BoardMove[] = [];

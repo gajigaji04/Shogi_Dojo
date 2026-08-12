@@ -1,6 +1,6 @@
-import type { Board, GameState, PieceType, Player } from "../types/shogi";
-import { emptyHands } from "../rules/boardOps";
-import { isInCheck } from "../rules/check";
+import type { Board, GameState, PieceType, Player } from "../types/shogi.js";
+import { emptyHands } from "../rules/boardOps.js";
+import { isInCheck } from "../rules/check.js";
 
 const BACK_RANK: PieceType[] = ["KY", "KE", "GI", "KI", "OU", "KI", "GI", "KE", "KY"];
 

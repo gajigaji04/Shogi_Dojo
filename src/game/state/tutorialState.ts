@@ -3,9 +3,9 @@
 // every other game mode) naturally walk through: moving, capturing, dropping a
 // captured piece, promoting, and giving check.
 
-import type { Board, GameState } from "../types/shogi";
-import { emptyHands } from "../rules/boardOps";
-import { isInCheck } from "../rules/check";
+import type { Board, GameState } from "../types/shogi.js";
+import { emptyHands } from "../rules/boardOps.js";
+import { isInCheck } from "../rules/check.js";
 
 export function createTutorialBoard(): Board {
   const board: Board = Array.from({ length: 9 }, () => Array<null>(9).fill(null));

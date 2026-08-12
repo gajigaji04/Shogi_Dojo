@@ -1,5 +1,5 @@
-import type { Board, Hands, Player } from "../types/shogi";
-import { getLegalMoves } from "./legalMoves";
+import type { Board, Hands, Player } from "../types/shogi.js";
+import { getLegalMoves } from "./legalMoves.js";
 
 /** True when `player` has no legal move at all — in shogi this always ends the game
  * as a loss for `player` (there is no stalemate draw). */

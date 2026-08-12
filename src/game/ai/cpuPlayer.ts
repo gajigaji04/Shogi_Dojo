@@ -4,9 +4,9 @@
 // eventually a USI engine over a worker/subprocess) only requires implementing
 // `CpuEngine`; the game state / UI layers are unaware of the difference.
 
-import type { GameState, Move } from "../types/shogi";
-import { getLegalMoves } from "../rules/legalMoves";
-import { findBestMove } from "./minimax";
+import type { GameState, Move } from "../types/shogi.js";
+import { getLegalMoves } from "../rules/legalMoves.js";
+import { findBestMove } from "./minimax.js";
 
 export type Difficulty = "beginner" | "easy" | "normal" | "hard" | "expert";
 

@@ -3,10 +3,10 @@
 // so a KIF file is only accepted if it actually represents a legal game — the parser
 // never invents board state of its own.
 
-import type { BasePieceType, GameState, Move, PieceType, Player, Position } from "../types/shogi";
-import { gameReducer } from "../state/gameReducer";
-import { createInitialGameState } from "../state/gameState";
-import { ZENKAKU_DIGITS, KANJI_NUMERALS } from "./kifu";
+import type { BasePieceType, GameState, Move, PieceType, Player, Position } from "../types/shogi.js";
+import { gameReducer } from "../state/gameReducer.js";
+import { createInitialGameState } from "../state/gameState.js";
+import { ZENKAKU_DIGITS, KANJI_NUMERALS } from "./kifu.js";
 
 export interface KifParseResult {
   ok: true;

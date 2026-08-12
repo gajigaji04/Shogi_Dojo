@@ -1,7 +1,7 @@
 // Minimal localStorage-backed persistence for finished games, so /replay and
 // /profile have real data to show without needing a backend yet.
 
-import type { GameStatus, HistoryEntry, Player } from "../types/shogi";
+import type { GameStatus, HistoryEntry, Player } from "../types/shogi.js";
 
 export interface GameRecord {
   id: string;

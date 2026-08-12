@@ -3,11 +3,11 @@
 // makes a fixed depth unpredictable in cost, but a time box keeps the UI responsive
 // regardless of position complexity, and simply searches deeper when it can.
 
-import { opponentOf } from "../types/shogi";
-import type { Board, Hands, Move, Player } from "../types/shogi";
-import { getLegalMoves } from "../rules/legalMoves";
-import { applyMoveToBoard } from "../rules/boardOps";
-import { evaluate } from "./evaluate";
+import { opponentOf } from "../types/shogi.js";
+import type { Board, Hands, Move, Player } from "../types/shogi.js";
+import { getLegalMoves } from "../rules/legalMoves.js";
+import { applyMoveToBoard } from "../rules/boardOps.js";
+import { evaluate } from "./evaluate.js";
 
 const MATE_SCORE = 1_000_000;
 const MAX_DEPTH = 5;

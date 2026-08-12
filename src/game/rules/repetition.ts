@@ -3,8 +3,8 @@
 // their moves across the whole repeated span, that player loses instead of a draw
 // (連続王手の千日手, perpetual check).
 
-import { BASE_PIECE_TYPES } from "../types/shogi";
-import type { Board, Hands, HistoryEntry, Player } from "../types/shogi";
+import { BASE_PIECE_TYPES } from "../types/shogi.js";
+import type { Board, Hands, HistoryEntry, Player } from "../types/shogi.js";
 
 export function positionKey(board: Board, hands: Hands, sideToMove: Player): string {
   const boardPart = board

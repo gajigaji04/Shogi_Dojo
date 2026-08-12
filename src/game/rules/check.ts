@@ -1,6 +1,6 @@
-import { opponentOf } from "../types/shogi";
-import type { Board, Player } from "../types/shogi";
-import { isSquareAttackedBy } from "./pieceMovement";
+import { opponentOf } from "../types/shogi.js";
+import type { Board, Player } from "../types/shogi.js";
+import { isSquareAttackedBy } from "./pieceMovement.js";
 
 export function findKing(board: Board, player: Player): { row: number; col: number } | null {
   for (let row = 0; row < 9; row++) {

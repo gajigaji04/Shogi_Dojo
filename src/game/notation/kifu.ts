@@ -1,7 +1,7 @@
 // Japanese kifu (棋譜) notation — e.g. "▲７六歩" or "△２二角成" or "▲５五歩打".
 
-import type { Move, PieceType, Player, Position } from "../types/shogi";
-import { isPromotionEligible } from "../rules/promotion";
+import type { Move, PieceType, Player, Position } from "../types/shogi.js";
+import { isPromotionEligible } from "../rules/promotion.js";
 
 export const ZENKAKU_DIGITS = "１２３４５６７８９";
 export const KANJI_NUMERALS = "一二三四五六七八九";

@@ -1,5 +1,5 @@
-import type { BasePieceType, Board, Player, Position } from "../types/shogi";
-import { isPromotionForced } from "./promotion";
+import type { BasePieceType, Board, Player, Position } from "../types/shogi.js";
+import { isPromotionForced } from "./promotion.js";
 
 /** Two-pawns-on-a-file (二歩): a player may not drop an unpromoted pawn on a file that
  * already contains one of their own unpromoted pawns. Promoted pawns (と金) don't count. */

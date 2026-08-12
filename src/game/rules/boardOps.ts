@@ -1,6 +1,6 @@
-import { BASE_PIECE_TYPES, baseTypeOf } from "../types/shogi";
-import type { Board, Hands, Move } from "../types/shogi";
-import { promote } from "./promotion";
+import { BASE_PIECE_TYPES, baseTypeOf } from "../types/shogi.js";
+import type { Board, Hands, Move } from "../types/shogi.js";
+import { promote } from "./promotion.js";
 
 export function cloneBoard(board: Board): Board {
   return board.map((row) => row.map((sq) => (sq ? { ...sq } : null)));

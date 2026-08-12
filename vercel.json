@@ -2,5 +2,8 @@
   "installCommand": "npm install && npm install --prefix server",
   "buildCommand": "npm --prefix server run prisma:generate && npm run build",
   "outputDirectory": "dist",
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api" },
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
+  ]
 }

@@ -1,8 +1,8 @@
 // Pseudo-legal movement generation per piece type — does NOT check for self-check safety.
 // "Pseudo-legal" here means: on the board, respecting blocking pieces and not capturing own pieces.
 
-import { inBounds } from "../types/shogi";
-import type { Board, PieceType, Player, Position } from "../types/shogi";
+import { inBounds } from "../types/shogi.js";
+import type { Board, PieceType, Player, Position } from "../types/shogi.js";
 
 type Vector = [number, number];
 

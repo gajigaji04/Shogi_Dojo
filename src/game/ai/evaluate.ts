@@ -2,8 +2,8 @@
 // `player`). Material dominates; king safety and pawn advancement are small
 // tie-breakers layered on top so the CPU doesn't shuffle aimlessly.
 
-import { BASE_PIECE_TYPES, opponentOf } from "../types/shogi";
-import type { Board, Hands, PieceType, Player } from "../types/shogi";
+import { BASE_PIECE_TYPES, opponentOf } from "../types/shogi.js";
+import type { Board, Hands, PieceType, Player } from "../types/shogi.js";
 
 export const PIECE_VALUE: Record<PieceType, number> = {
   FU: 100,

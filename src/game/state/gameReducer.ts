@@ -1,12 +1,12 @@
-import type { GameState, Move } from "../types/shogi";
-import { opponentOf } from "../types/shogi";
-import { applyMoveToBoard } from "../rules/boardOps";
-import { getLegalMoves } from "../rules/legalMoves";
-import { isInCheck } from "../rules/check";
-import { hasNoLegalMoves } from "../rules/checkmate";
-import { detectRepetition } from "../rules/repetition";
-import { moveToNotation } from "../notation/kifu";
-import { createInitialGameState } from "./gameState";
+import type { GameState, Move } from "../types/shogi.js";
+import { opponentOf } from "../types/shogi.js";
+import { applyMoveToBoard } from "../rules/boardOps.js";
+import { getLegalMoves } from "../rules/legalMoves.js";
+import { isInCheck } from "../rules/check.js";
+import { hasNoLegalMoves } from "../rules/checkmate.js";
+import { detectRepetition } from "../rules/repetition.js";
+import { moveToNotation } from "../notation/kifu.js";
+import { createInitialGameState } from "./gameState.js";
 
 export type GameAction = { type: "MOVE"; move: Move } | { type: "RESIGN" } | { type: "TIMEOUT" } | { type: "RESET" };
 

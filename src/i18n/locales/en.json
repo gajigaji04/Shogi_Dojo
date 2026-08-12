@@ -202,7 +202,22 @@
     "loginRequiredBody": "You need to log in to play online.",
     "logout": "Log out",
     "myGames": "My games",
-    "welcomeBack": "Welcome back, {{nickname}}."
+    "welcomeBack": "Welcome back, {{nickname}}.",
+    "forgotPasswordLink": "Forgot your password?",
+    "forgotPasswordTitle": "Reset your password",
+    "forgotPasswordBody": "Enter the email address you registered with, and we'll send you a reset link.",
+    "forgotPasswordButton": "Send reset link",
+    "forgotPasswordSending": "Sending…",
+    "forgotPasswordDone": "Please check your email.",
+    "backToLogin": "Back to login",
+    "resetPasswordTitle": "Set a new password",
+    "resetPasswordBody": "Enter the new password you'd like to use.",
+    "resetPasswordButton": "Change password",
+    "resetPasswordSubmitting": "Changing…",
+    "resetPasswordDoneTitle": "Your password has been changed.",
+    "resetPasswordDoneBody": "Please log in with your new password.",
+    "resetPasswordInvalidTitle": "Invalid link",
+    "resetPasswordInvalidBody": "This reset link is missing or invalid. Please try Forgot your password? again."
   },
   "online": {
     "title": "Play Online",

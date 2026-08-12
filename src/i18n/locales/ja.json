@@ -202,7 +202,22 @@
     "loginRequiredBody": "オンライン対局を利用するにはログインが必要です。",
     "logout": "ログアウト",
     "myGames": "自分の対局",
-    "welcomeBack": "{{nickname}}さん、ようこそ。"
+    "welcomeBack": "{{nickname}}さん、ようこそ。",
+    "forgotPasswordLink": "パスワードをお忘れですか？",
+    "forgotPasswordTitle": "パスワードをお忘れの方",
+    "forgotPasswordBody": "登録済みのメールアドレスを入力すると、パスワード再設定リンクをお送りします。",
+    "forgotPasswordButton": "再設定リンクを送信",
+    "forgotPasswordSending": "送信中…",
+    "forgotPasswordDone": "メールをご確認ください。",
+    "backToLogin": "ログインに戻る",
+    "resetPasswordTitle": "新しいパスワードの設定",
+    "resetPasswordBody": "新しく使用するパスワードを入力してください。",
+    "resetPasswordButton": "パスワードを変更",
+    "resetPasswordSubmitting": "変更中…",
+    "resetPasswordDoneTitle": "パスワードを変更しました。",
+    "resetPasswordDoneBody": "新しいパスワードでログインしてください。",
+    "resetPasswordInvalidTitle": "リンクが無効です",
+    "resetPasswordInvalidBody": "再設定リンクがないか、無効です。パスワードをお忘れの方から再度お試しください。"
   },
   "online": {
     "title": "オンライン対局",

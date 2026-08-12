@@ -64,14 +64,24 @@ function TutorialSession({ onRestart }: { onRestart: () => void }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [waitingForOpponent, len]);
 
+  // The board highlights the next piece to move as a hint. Without this, that highlight is
+  // purely visual (game.selected stays null) — a player naturally clicks the destination square
+  // next, since the piece already *looks* selected, but that click was silently ignored because
+  // nothing was really selected yet. Pre-selecting it for real makes the hint square actually
+  // interactive on the first click, and shows the legal destination as a green dot too.
+  useEffect(() => {
+    if (done || waitingForOpponent || stage.kind !== "move" || game.selected) return;
+    game.selectSquare(stage.from);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stage, waitingForOpponent, done]);
+
   function guardedSelectSquare(pos: Position) {
     if (waitingForOpponent || done) return;
     if (stage.kind === "move") {
-      if (!game.selected) {
-        if (samePos(stage.from, pos)) game.selectSquare(pos);
-        return;
-      }
-      if (samePos(game.selected, pos) || samePos(stage.to, pos)) game.selectSquare(pos);
+      // stage.from is kept auto-selected (see the effect above), so the only click that
+      // should do anything is the destination — re-clicking the already-selected source
+      // would otherwise toggle it back off via the underlying hook's deselect behavior.
+      if (samePos(stage.to, pos)) game.selectSquare(pos);
       return;
     }
     // drop stage
@@ -85,12 +95,9 @@ function TutorialSession({ onRestart }: { onRestart: () => void }) {
     if (stage.kind === "drop" && type === stage.dropPiece) game.selectHandPiece(type);
   }
 
-  const hintSelected =
-    !done && !waitingForOpponent && stage.kind === "move" && !game.selected ? stage.from : game.selected;
-
   const guardedGame: ShogiGameController = {
     state: game.state,
-    selected: hintSelected,
+    selected: game.selected,
     selectedDrop: game.selectedDrop,
     legalTargets: game.legalTargets,
     checkedKing: game.checkedKing,

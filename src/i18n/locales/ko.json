@@ -202,7 +202,22 @@
     "loginRequiredBody": "온라인 대국을 이용하려면 로그인이 필요합니다.",
     "logout": "로그아웃",
     "myGames": "내 대국",
-    "welcomeBack": "{{nickname}}님, 환영합니다."
+    "welcomeBack": "{{nickname}}님, 환영합니다.",
+    "forgotPasswordLink": "비밀번호를 잊으셨나요?",
+    "forgotPasswordTitle": "비밀번호 찾기",
+    "forgotPasswordBody": "가입하신 이메일 주소를 입력하시면, 비밀번호 재설정 링크를 보내드립니다.",
+    "forgotPasswordButton": "재설정 링크 보내기",
+    "forgotPasswordSending": "전송하는 중…",
+    "forgotPasswordDone": "이메일을 확인해주세요.",
+    "backToLogin": "로그인으로 돌아가기",
+    "resetPasswordTitle": "새 비밀번호 설정",
+    "resetPasswordBody": "새로 사용할 비밀번호를 입력해주세요.",
+    "resetPasswordButton": "비밀번호 변경",
+    "resetPasswordSubmitting": "변경하는 중…",
+    "resetPasswordDoneTitle": "비밀번호가 변경되었습니다.",
+    "resetPasswordDoneBody": "새 비밀번호로 로그인해주세요.",
+    "resetPasswordInvalidTitle": "링크가 유효하지 않습니다",
+    "resetPasswordInvalidBody": "재설정 링크가 없거나 잘못되었습니다. 비밀번호 찾기를 다시 시도해주세요."
   },
   "online": {
     "title": "온라인 대전",

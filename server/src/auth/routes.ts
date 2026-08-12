@@ -5,6 +5,8 @@ import { hashPassword, verifyPassword } from "./hash.js";
 import { signToken } from "./jwt.js";
 import { requireAuth } from "./middleware.js";
 import type { AuthedRequest } from "./middleware.js";
+import { generateResetToken, hashResetToken, RESET_TOKEN_TTL_MS } from "./resetToken.js";
+import { sendPasswordResetEmail } from "../email/resend.js";
 
 export const authRouter = Router();
 
@@ -75,6 +77,80 @@ authRouter.post("/login", async (req, res) => {
 // frontend has a symmetric, explicit action to call (and a hook point for a future
 // token-blocklist if sessions need server-side revocation).
 authRouter.post("/logout", (_req, res) => {
+  res.json({ success: true });
+});
+
+const forgotPasswordSchema = z.object({
+  email: z.string().email("이메일 형식이 올바르지 않습니다."),
+});
+
+const RESEND_COOLDOWN_MS = 60 * 1000;
+
+// Always responds 200 with the same generic message, whether or not the email is
+// registered — otherwise this endpoint becomes an account-enumeration oracle.
+authRouter.post("/forgot-password", async (req, res) => {
+  const parsed = forgotPasswordSchema.safeParse(req.body);
+  if (!parsed.success) {
+    res.status(400).json({ error: "VALIDATION_ERROR", fieldErrors: parsed.error.flatten().fieldErrors });
+    return;
+  }
+  const { email } = parsed.data;
+  const genericResponse = { success: true, message: "해당 이메일로 가입된 계정이 있다면, 비밀번호 재설정 링크를 보내드렸습니다." };
+
+  const user = await prisma.user.findUnique({ where: { email } });
+  if (!user) {
+    res.json(genericResponse);
+    return;
+  }
+
+  const recent = await prisma.passwordResetToken.findFirst({
+    where: { userId: user.id, usedAt: null, createdAt: { gt: new Date(Date.now() - RESEND_COOLDOWN_MS) } },
+  });
+  if (recent) {
+    res.json(genericResponse);
+    return;
+  }
+
+  const { rawToken, tokenHash } = generateResetToken();
+  await prisma.passwordResetToken.create({
+    data: { userId: user.id, tokenHash, expiresAt: new Date(Date.now() + RESET_TOKEN_TTL_MS) },
+  });
+
+  try {
+    await sendPasswordResetEmail(user.email, rawToken);
+  } catch {
+    // Send failure is a real ops problem, but still don't leak account existence to the caller.
+  }
+
+  res.json(genericResponse);
+});
+
+const resetPasswordSchema = z.object({
+  token: z.string().min(1),
+  password: z.string().min(8, "비밀번호는 8자 이상이어야 합니다."),
+});
+
+authRouter.post("/reset-password", async (req, res) => {
+  const parsed = resetPasswordSchema.safeParse(req.body);
+  if (!parsed.success) {
+    res.status(400).json({ error: "VALIDATION_ERROR", fieldErrors: parsed.error.flatten().fieldErrors });
+    return;
+  }
+  const { token, password } = parsed.data;
+  const tokenHash = hashResetToken(token);
+
+  const resetToken = await prisma.passwordResetToken.findUnique({ where: { tokenHash } });
+  if (!resetToken || resetToken.usedAt || resetToken.expiresAt < new Date()) {
+    res.status(400).json({ error: "INVALID_TOKEN", message: "재설정 링크가 유효하지 않거나 만료되었습니다." });
+    return;
+  }
+
+  const passwordHash = await hashPassword(password);
+  await prisma.$transaction([
+    prisma.user.update({ where: { id: resetToken.userId }, data: { passwordHash } }),
+    prisma.passwordResetToken.update({ where: { id: resetToken.id }, data: { usedAt: new Date() } }),
+  ]);
+
   res.json({ success: true });
 });
 

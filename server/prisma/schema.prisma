@@ -15,10 +15,27 @@ model User {
   passwordHash String
   createdAt    DateTime @default(now())
 
-  gamesAsPlayer1 Game[]       @relation("player1")
-  gamesAsPlayer2 Game[]       @relation("player2")
-  gamesWon       Game[]       @relation("winner")
+  gamesAsPlayer1 Game[]                @relation("player1")
+  gamesAsPlayer2 Game[]                @relation("player2")
+  gamesWon       Game[]                @relation("winner")
   matchQueue     MatchQueue?
+  resetTokens    PasswordResetToken[]
+}
+
+/** A short-lived, single-use token for the forgot-password flow. Only a SHA-256 hash
+ * of the token is stored — like the password itself, the raw value only ever exists
+ * client-side and in the emailed link, never at rest. */
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  userId    String
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model Game {

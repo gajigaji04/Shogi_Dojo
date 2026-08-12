@@ -12,7 +12,7 @@ export function RetroFooter() {
         <Link to="/contact">{t("common.contact")}</Link>
       </div>
       <div>
-        © {new Date().getFullYear()} {t("app.title")}
+        © {new Date().getFullYear()} {t("app.title")} · V.{__APP_VERSION__}
       </div>
     </footer>
   );

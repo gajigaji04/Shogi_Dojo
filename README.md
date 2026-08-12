@@ -289,8 +289,6 @@ erDiagram
 
 ## 🔐 인증 및 보안
 
-실제 코드에서 확인한 내용만 기재합니다.
-
 - **비밀번호 해시**: `bcryptjs`로 해시하여 저장(`server/src/auth/hash.ts`). 평문 저장 없음.
 - **JWT 인증**: 로그인 성공 시 30일 만료 JWT 발급(`server/src/auth/jwt.ts`). 세션을 서버에 저장하지 않는 stateless 구조.
 - **인증 미들웨어**: `requireAuth`(`server/src/auth/middleware.ts`)가 `Authorization: Bearer <token>` 헤더를 검증하며, 로그인 필요 라우트에 일괄 적용.
@@ -462,7 +460,7 @@ PORT=8787
 CORS_ORIGIN="http://localhost:5173"
 ```
 
-실제 값(특히 `JWT_SECRET`, `DATABASE_URL`)은 이 문서나 저장소 어디에도 커밋하지 않습니다.
+실제 값(특히 `JWT_SECRET`, `DATABASE_URL`)은 보안을 위해 이 문서나 저장소 어디에도 커밋하지 않습니다.
 
 ## 🧪 테스트
 

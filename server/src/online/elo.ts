@@ -13,7 +13,11 @@ export interface EloUpdate {
 }
 
 /** scoreA: 1 = A won, 0 = A lost, 0.5 = draw. */
-export function calculateElo(ratingA: number, ratingB: number, scoreA: number): EloUpdate {
+export function calculateElo(
+  ratingA: number,
+  ratingB: number,
+  scoreA: number,
+): EloUpdate {
   const expectedA = expectedScore(ratingA, ratingB);
   const scoreB = 1 - scoreA;
   const expectedB = 1 - expectedA;

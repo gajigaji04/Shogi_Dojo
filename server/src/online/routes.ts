@@ -5,12 +5,14 @@
 
 import { Router } from "express";
 import { z } from "zod";
+import type { Prisma } from "@prisma/client";
 import { prisma } from "../db.js";
 import { requireAuth } from "../auth/middleware.js";
 import type { AuthedRequest } from "../auth/middleware.js";
 import { gameReducer } from "../../../src/game/state/gameReducer.js";
 import { createInitialGameState } from "../../../src/game/state/gameState.js";
 import type { GameState, Move, Player } from "../../../src/game/types/shogi.js";
+import { allowedRatingWindow, calculateElo } from "./elo.js";
 
 export const onlineRouter = Router();
 
@@ -25,6 +27,29 @@ function colorOf(game: { player1Id: string; player2Id: string }, userId: string)
 function winnerIdOf(game: { player1Id: string; player2Id: string }, state: GameState): string | null {
   if (!state.winner) return null;
   return state.winner === "sente" ? game.player1Id : game.player2Id;
+}
+
+/** Updates both players' Elo ratings after a finished game. `winnerId: null` means a
+ * draw (sennichite). Must run inside the same transaction as the Game status update,
+ * so a finished game and its rating change land together or not at all. */
+async function applyRatingChange(
+  tx: Prisma.TransactionClient,
+  game: { player1Id: string; player2Id: string },
+  winnerId: string | null
+) {
+  const [p1, p2] = await Promise.all([
+    tx.user.findUnique({ where: { id: game.player1Id } }),
+    tx.user.findUnique({ where: { id: game.player2Id } }),
+  ]);
+  if (!p1 || !p2) return;
+
+  const scoreP1 = winnerId === null ? 0.5 : winnerId === game.player1Id ? 1 : 0;
+  const { newRatingA, newRatingB } = calculateElo(p1.rating, p2.rating, scoreP1);
+
+  await Promise.all([
+    tx.user.update({ where: { id: p1.id }, data: { rating: newRatingA } }),
+    tx.user.update({ where: { id: p2.id }, data: { rating: newRatingB } }),
+  ]);
 }
 
 /** Join the queue, or get matched immediately if someone is already waiting.
@@ -45,10 +70,30 @@ onlineRouter.post("/queue/join", requireAuth, async (req: AuthedRequest, res) =>
     await tx.$executeRaw`SELECT pg_advisory_xact_lock(727272)`;
 
     await tx.matchQueue.deleteMany({ where: { userId } });
-    const opponentEntry = await tx.matchQueue.findFirst({
+
+    const me = await tx.user.findUnique({ where: { id: userId } });
+    const myRating = me?.rating ?? 1200;
+
+    // Each waiting candidate accepts a wider rating gap the longer they've been
+    // queued, so a lone player in an otherwise-empty bracket isn't stuck forever
+    // waiting for an exact rating match. Among everyone currently acceptable,
+    // pick the closest-rated opponent.
+    const candidates = await tx.matchQueue.findMany({
       where: { userId: { not: userId } },
-      orderBy: { createdAt: "asc" },
+      include: { user: true },
     });
+
+    const now = Date.now();
+    let opponentEntry: (typeof candidates)[number] | null = null;
+    let bestDiff = Infinity;
+    for (const candidate of candidates) {
+      const waitedMs = now - candidate.createdAt.getTime();
+      const diff = Math.abs(myRating - candidate.user.rating);
+      if (diff <= allowedRatingWindow(waitedMs) && diff < bestDiff) {
+        opponentEntry = candidate;
+        bestDiff = diff;
+      }
+    }
 
     if (!opponentEntry) {
       await tx.matchQueue.create({ data: { userId } });
@@ -159,16 +204,16 @@ onlineRouter.post("/games/:id/move", requireAuth, async (req: AuthedRequest, res
   }
 
   const gameOver = after.status !== "ongoing";
-  await prisma.$transaction([
-    prisma.gameMove.create({
+  await prisma.$transaction(async (tx) => {
+    await tx.gameMove.create({
       data: {
         gameId: game.id,
         moveNumber: after.history.length,
         playerId: req.userId!,
         moveData: JSON.stringify(after.history[after.history.length - 1]),
       },
-    }),
-    prisma.game.update({
+    });
+    await tx.game.update({
       where: { id: game.id },
       data: {
         stateJson: after as unknown as object,
@@ -182,8 +227,11 @@ onlineRouter.post("/games/:id/move", requireAuth, async (req: AuthedRequest, res
             }
           : {}),
       },
-    }),
-  ]);
+    });
+    if (gameOver) {
+      await applyRatingChange(tx, game, winnerIdOf(game, after));
+    }
+  });
 
   res.json({ state: after });
 });
@@ -201,16 +249,20 @@ onlineRouter.post("/games/:id/resign", requireAuth, async (req: AuthedRequest, r
   }
   const before = game.stateJson as unknown as GameState;
   const after = gameReducer(before, { type: "RESIGN" });
+  const winnerId = winnerIdOf(game, after);
 
-  await prisma.game.update({
-    where: { id: game.id },
-    data: {
-      stateJson: after as unknown as object,
-      status: "FINISHED",
-      winnerId: winnerIdOf(game, after),
-      resultKind: "resign",
-      endedAt: new Date(),
-    },
+  await prisma.$transaction(async (tx) => {
+    await tx.game.update({
+      where: { id: game.id },
+      data: {
+        stateJson: after as unknown as object,
+        status: "FINISHED",
+        winnerId,
+        resultKind: "resign",
+        endedAt: new Date(),
+      },
+    });
+    await applyRatingChange(tx, game, winnerId);
   });
 
   res.json({ state: after });
@@ -238,16 +290,20 @@ onlineRouter.post("/games/:id/claim-timeout", requireAuth, async (req: AuthedReq
   }
 
   const after = gameReducer(before, { type: "TIMEOUT" });
+  const winnerId = winnerIdOf(game, after);
 
-  await prisma.game.update({
-    where: { id: game.id },
-    data: {
-      stateJson: after as unknown as object,
-      status: "FINISHED",
-      winnerId: winnerIdOf(game, after),
-      resultKind: "timeout",
-      endedAt: new Date(),
-    },
+  await prisma.$transaction(async (tx) => {
+    await tx.game.update({
+      where: { id: game.id },
+      data: {
+        stateJson: after as unknown as object,
+        status: "FINISHED",
+        winnerId,
+        resultKind: "timeout",
+        endedAt: new Date(),
+      },
+    });
+    await applyRatingChange(tx, game, winnerId);
   });
 
   res.json({ state: after });

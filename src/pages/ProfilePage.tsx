@@ -86,6 +86,12 @@ export function ProfilePage() {
       </div>
 
       <div className={styles.statsRow}>
+        {user && (
+          <div className={styles.statBlock}>
+            <div className={styles.statValue}>{user.rating}</div>
+            <div className={styles.statLabel}>{t("common.rating")}</div>
+          </div>
+        )}
         <div className={styles.statBlock}>
           <div className={styles.statValue}>{rows.length}</div>
           <div className={styles.statLabel}>{t("common.total")}</div>

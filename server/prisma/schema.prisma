@@ -13,6 +13,7 @@ model User {
   email        String   @unique
   nickname     String   @unique
   passwordHash String
+  rating       Int      @default(1200)
   createdAt    DateTime @default(now())
 
   gamesAsPlayer1 Game[]                @relation("player1")

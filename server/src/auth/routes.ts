@@ -16,8 +16,8 @@ const registerSchema = z.object({
   nickname: z.string().min(2, "닉네임은 2자 이상이어야 합니다.").max(20, "닉네임은 20자 이하여야 합니다."),
 });
 
-function publicUser(user: { id: string; email: string; nickname: string }) {
-  return { id: user.id, email: user.email, nickname: user.nickname };
+function publicUser(user: { id: string; email: string; nickname: string; rating: number }) {
+  return { id: user.id, email: user.email, nickname: user.nickname, rating: user.rating };
 }
 
 authRouter.post("/register", async (req, res) => {

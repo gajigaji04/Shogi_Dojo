@@ -7,6 +7,7 @@ export interface AuthUser {
   id: string;
   email: string;
   nickname: string;
+  rating: number;
 }
 
 type AuthStatus = "loading" | "authenticated" | "unauthenticated";
